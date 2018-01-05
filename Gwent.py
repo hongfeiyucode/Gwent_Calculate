@@ -14,8 +14,12 @@ def mode0(a):
 	B=0
 	enemy=a.split(" ")
 	enemy=map(int,enemy)
-	for i in enemy:
-		for j in enemy:
+	for i in range(len(enemy)):
+		for j in range(len(enemy)):
+			if i==j:
+				continue
+			i=enemy[i]
+			j=enemy[j]
 			big=i if i>j else j
 			small=j if i>j else i
 			while big>0 and small>0:

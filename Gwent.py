@@ -18,18 +18,16 @@ def mode0(a):
 		for j in range(len(enemy)):
 			if i==j:
 				continue
-			i=enemy[i]
-			j=enemy[j]
-			big=i if i>j else j
-			small=j if i>j else i
+			big=enemy[i] if enemy[i]>enemy[j] else enemy[j]
+			small=enemy[j] if enemy[i]>enemy[j] else enemy[i]
 			while big>0 and small>0:
 				big=big-small if big>=small else 0
 				small=small-big if small>=big else 0
-			damage=i+j-big-small
+			damage=enemy[i]+enemy[j]-big-small
 			if damage>max_damage:
 				max_damage=damage
-				A=j if i>j else i
-				B=i if i>j else j
+				A=enemy[j] if enemy[i]>enemy[j] else enemy[i]
+				B=enemy[i] if enemy[i]>enemy[j] else enemy[j]
 
 	print u"最大收益：用",A,u"攻击",B,u"得到最大收益：",max_damage,u"\n战力变化为："
 	while B>0 and A>0:

@@ -5,69 +5,89 @@
 
 import sys
 
+def attack(a,b):
+	#a打b,[0]为战力,[1]为护甲
+	b[1]=b[1]-a[0]
+	if b[1]<0:
+		b[0]=b[0]+b[1]
+		b[1]=0
+	if b[0]<0:
+		b[0]=0
+	return a,b
 
 def mode0(a):
-	enemy=[]
+	enemy=[[0]*2]
 	max_damage=0
 	damage=0
-	A=0
-	B=0
 	enemy=a.split(" ")
-	enemy=map(int,enemy)
+	for i in range(len(enemy)):
+		if not ',' in enemy[i]:
+			enemy[i]=enemy[i]+',0'
+		enemy[i]=enemy[i].split(',')
+		enemy[i]=map(int,enemy[i])
+		#print enemy[i][0],enemy[i][1]
+	A=B=[0,0]
 	for i in range(len(enemy)):
 		for j in range(len(enemy)):
 			if i==j:
 				continue
-			big=enemy[i] if enemy[i]>enemy[j] else enemy[j]
-			small=enemy[j] if enemy[i]>enemy[j] else enemy[i]
-			while big>0 and small>0:
-				big=big-small if big>=small else 0
-				small=small-big if small>=big else 0
-			damage=enemy[i]+enemy[j]-big-small
+			a=enemy[i][:]
+			b=enemy[j][:]
+			while a[0]>0 and b[0]>0:
+				a,b=attack(a,b)
+				b,a=attack(b,a)
+			damage=enemy[i][0]+enemy[j][0]-a[0]-b[0]
 			if damage>max_damage:
 				max_damage=damage
-				A=enemy[j] if enemy[i]>enemy[j] else enemy[i]
-				B=enemy[i] if enemy[i]>enemy[j] else enemy[j]
-
-	print u"最大收益：用",A,u"攻击",B,u"得到最大收益：",max_damage,u"\n战力变化为："
-	while B>0 and A>0:
-		print B,A,'->',
-		B=B-A if B>=A else 0
-		A=A-B if A>=B else 0
-	print B,A
-
-def mode1(a):
-	enemy=[]
-	max_damage=0
-	damage=0
-	A=0
-	B=0
-	enemy=a.split(" ")
-	enemy=map(int,enemy)
-	i=enemy[0]
-	enemy=enemy[1:]
-	for j in enemy:
-		big=j
-		small=i
-		while big>0 and small>0:
-			big=big-small if big>=small else 0
-			small=small-big if small>=big else 0
-		damage=j-big-(i-small)
-		if damage>max_damage:
-			max_damage=damage
-			A=i
-			B=j
+				A=enemy[i]
+				B=enemy[j]
 
 	print u"最大收益：用",A,u"攻击",B,u"得到最大收益：",max_damage
-	while B>0 and A>0:
+	while B[0]>0 and A[0]>0:
 		print B,A,'->',
-		B=B-A if B>=A else 0
-		A=A-B if A>=B else 0
-	print B,A
+		A,B=attack(A,B)
+		B,A=attack(B,A)
+	print B[0],A[0]
+
+def mode1(a):
+	enemy=[[0]*2]
+	max_damage=0
+	damage=0
+	enemy=a.split(" ")
+	for i in range(len(enemy)):
+		if not ',' in enemy[i]:
+			enemy[i]=enemy[i]+',0'
+		enemy[i]=enemy[i].split(',')
+		enemy[i]=map(int,enemy[i])
+		#print enemy[i][0],enemy[i][1]
+	A=B=[0,0]
+	i=0
+	for j in range(1,len(enemy)):
+		a=enemy[i][:]
+		b=enemy[j][:]
+		while a[0]>0 and b[0]>0:
+			a,b=attack(a,b)
+			b,a=attack(b,a)
+		damage=enemy[i][0]+enemy[j][0]-a[0]-b[0]
+		print enemy[i][0],enemy[j][0],a[0],b[0]
+		print damage
+		if damage>max_damage:
+			max_damage=damage
+			A=enemy[i]
+			B=enemy[j]
+
+	print u"最大收益：用",A,u"攻击",B,u"得到最大收益：",max_damage
+	while B[0]>0 and A[0]>0:
+		print B,A,'->',
+		A,B=attack(A,B)
+		B,A=attack(B,A)
+	print B[0],A[0]
 
 
 print u"\nGwent_Calculate 昆特牌多功能决斗计算器 1.0\n"
-print u"\n输入x在两个模式之间切换，输入q退出\n"
+print u"\n输入x在两个模式之间切换，输入q退出"
+print u"\n如果需要计算护甲，在战力后面加上逗号和护甲值，注意要用英文逗号例如12,2"
+print u"\n不同战力之间用空格隔开，但只能用一个空格，不要加多余的空格，例如12,2 1 3 4"
 mode=0
 
 while 1:

@@ -14,7 +14,7 @@
 
 共六种模式
 
-![demo](https://github.com/hongfeiyucode/Gwent_Calculate/demo.png)
+![demo](https://github.com/hongfeiyucode/Gwent_Calculate/blob/master/demo.png)
 
 ### 伊欧菲斯：冥想 计算模式 
   

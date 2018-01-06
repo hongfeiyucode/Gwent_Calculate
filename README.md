@@ -1,7 +1,6 @@
 # Gwent_Calculate
 昆特牌多功能决斗计算器
 
-
 ## Gwent_Calculate 昆特牌多功能决斗计算器 3.0
 
 支持：
@@ -14,6 +13,8 @@
 6 自由决斗
 
 共六种模式
+
+![demo](https://github.com/hongfeiyucode/Gwent_Calculate/demo.png)
 
 ### 伊欧菲斯：冥想 计算模式 
   
